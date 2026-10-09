@@ -39,13 +39,14 @@ the section settings form does: the original in `format_grid/sectionimage`, a ro
 
 Send `alttext` alone to change only the alt text. The file name gets a short content hash, so
 browsers show a replaced image at once. Both services include the three functions. The user needs
-`moodle/course:update` in the course.
+`moodle/course:update` in the course. The three functions are also AJAX-enabled, so a page in a
+logged-in browser can call them with `core/ajax` (no token needed).
 
 ## Services created on install
 
 | Service | Short name | Contents |
 |---|---|---|
-| AI-assistenter – interne (MCP) | `aimcp_internal` | All 22 tools plus core read, create and edit functions, deleting categories and courses, and enrolment (49 functions) |
+| AI-assistenter – interne (MCP) | `aimcp_internal` | All 22 tools plus core read, create and edit functions, deleting categories and courses, enrolment and file upload (`core_files_upload`, `core_files_get_files`) (51 functions) |
 | AI-assistenter – eksterne (MCP) | `aimcp_external` | The 22 tools plus core read, create and edit functions. It cannot delete categories or courses, enrol users or use `core_courseformat_update_course` (40 functions) |
 
 Both services are limited to authorised users. Service names are unique. If you already made a

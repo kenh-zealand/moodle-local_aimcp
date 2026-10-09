@@ -144,18 +144,21 @@ $functions = [
         'description' => 'Upload or replace the tile image of a section in a Grid-format course, and/or set its alt text. Give exactly one source: svg (SVG markup, recommended for AI; rendered to a 1140 px wide PNG on the server, use viewBox="0 0 1140 600" and no text in the image), imagedata (base64 PNG/JPEG/GIF/WebP) or imageurl (public http/https image). Send only alttext to change the alt text of an existing image.',
         'type' => 'write',
         'capabilities' => 'moodle/course:update',
+        'ajax' => true,
     ],
     'local_aimcp_delete_section_image' => [
         'classname' => 'local_aimcp\external\delete_section_image',
         'description' => 'Delete the tile image of a section in a Grid-format course (and by default its alt text).',
         'type' => 'write',
         'capabilities' => 'moodle/course:update',
+        'ajax' => true,
     ],
     'local_aimcp_get_section_images' => [
         'classname' => 'local_aimcp\external\get_section_images',
         'description' => 'List the sections of a Grid-format course with tile image status: whether each has an image, file name, alt text and image URL. Use it before and after setting images.',
         'type' => 'read',
         'capabilities' => 'moodle/course:manageactivities',
+        'ajax' => true,
     ],
 ];
 
@@ -214,11 +217,13 @@ $services = [
             'enrol_manual_unenrol_users',
             'core_enrol_get_enrolled_users',
             'core_user_get_users_by_field',
+            'core_files_upload',
+            'core_files_get_files',
         ],
         'restrictedusers' => 1,
         'enabled' => 1,
         'downloadfiles' => 1,
-        'uploadfiles' => 0,
+        'uploadfiles' => 1,
     ],
     'AI-assistenter – eksterne (MCP)' => [
         'shortname' => 'aimcp_external',
