@@ -61,6 +61,31 @@ final class h5p_external_test extends \advanced_testcase {
         create_h5p::execute($this->course->id, 0, 'Denied', $this->package);
     }
 
+    /** Normal editing teachers can author with installed libraries without admin rights. */
+    public function test_editing_teacher_can_create(): void {
+        $teacher = $this->getDataGenerator()->create_user();
+        $this->getDataGenerator()->enrol_user($teacher->id, $this->course->id, 'editingteacher');
+        $this->setUser($teacher);
+        $created = create_h5p::execute($this->course->id, 0, 'Teacher activity', $this->package);
+        self::assertSame('Teacher activity', get_h5p::execute($created['cmid'])['name']);
+    }
+
+    /** Consuming one's own draft preserves its original bytes for reuse. */
+    public function test_own_draft_is_preserved(): void {
+        global $CFG, $USER;
+        $draftid = file_get_unused_draft_itemid();
+        $file = get_file_storage()->create_file_from_pathname([
+            'contextid' => \core\context\user::instance($USER->id)->id, 'component' => 'user', 'filearea' => 'draft',
+            'itemid' => $draftid, 'filepath' => '/', 'filename' => 'original.h5p', 'userid' => $USER->id,
+        ], $CFG->dirroot . '/h5p/tests/fixtures/ipsums.h5p');
+        $hash = $file->get_contenthash();
+        $created = create_h5p::execute($this->course->id, 0, 'Draft activity', '', $draftid);
+        self::assertGreaterThan(0, $created['cmid']);
+        $original = get_file_storage()->get_file($file->get_contextid(), 'user', 'draft', $draftid, '/', 'original.h5p');
+        self::assertNotFalse($original);
+        self::assertSame($hash, $original->get_contenthash());
+    }
+
     /** Editing rights without deployment rights are insufficient. */
     public function test_teacher_without_deploy_cannot_create(): void {
         global $DB;
