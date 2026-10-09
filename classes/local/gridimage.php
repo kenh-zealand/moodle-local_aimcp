@@ -133,7 +133,8 @@ class gridimage {
         $forbidden = '~<!DOCTYPE|<!ENTITY|<script|<foreignObject|<image[\s/>]|<feImage|<iframe|<object|<embed|<audio|' .
             '<video|<handler|<listener|@import|://|javascript:|\bfile:|\bdata:|\son[a-z]+\s*=~i';
         if (preg_match($forbidden, $check, $match)) {
-            throw new \moodle_exception('svginvalid', 'local_aimcp', '', 'not allowed: ' . trim($match[0]));
+            // Without "<" and "=", so Moodle's output cleaning does not swallow the name.
+            throw new \moodle_exception('svginvalid', 'local_aimcp', '', 'not allowed: ' . trim($match[0], " \t\n<!=:"));
         }
         if (preg_match_all('~(?:xlink:)?href\s*=\s*(?:"([^"]*)"|\'([^\']*)\')~i', $check, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $m) {
