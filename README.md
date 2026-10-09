@@ -1,7 +1,7 @@
 # local_aimcp – AI MCP content tools
 
 Service-neutral replacement for `local_claudemcp` + `local_claudemcpbook`. The plugin
-exposes 22 web service functions (`local_aimcp_*`) for building course content. They are
+exposes 26 web service functions (`local_aimcp_*`) for building course content. They are
 meant to be used through the MCP web service protocol (`webservice_mcp`) from ChatGPT, Claude or
 other MCP clients.
 
@@ -19,6 +19,49 @@ Book: `create_book`, `add_book_chapter`, `update_book_chapter`, `delete_book_cha
 Courses: `create_course`, `get_default_category`.
 
 Grid tile images: `set_section_image`, `delete_section_image`, `get_section_images`.
+
+H5P: `get_h5p_libraries`, `get_h5p`, `create_h5p`, `update_h5p`.
+
+## Native H5P activities
+
+Version 1.3.0 adds native `mod_h5pactivity` support in both services and via AJAX:
+
+| Function | Purpose |
+|---|---|
+| `local_aimcp_get_h5p_libraries` | Installed library versions, enabled status and optional semantics JSON; requires an editable `courseid` |
+| `local_aimcp_get_h5p` | Activity settings, section number, manifest, content JSON and authenticated backup package URL by `cmid` |
+| `local_aimcp_create_h5p` | Create from `courseid`, section **number**, title and a `.h5p` package |
+| `local_aimcp_update_h5p` | Validate and replace a package by `cmid`; preserve activity id, attempts and grading/completion settings |
+
+For creation/update, supply exactly one source: `packagedata` (strict base64, no data-URL
+prefix) or `draftitemid` (the caller's draft with exactly one local `.h5p` file at `/`).
+The internal service can upload drafts with `core_files_upload`; the external service can
+use base64 without gaining generic file-upload access. The caller's original draft is preserved.
+
+The tools enforce course editing and `moodle/h5p:deploy`; creation also requires
+`mod/h5pactivity:addinstance`. Packages are checked before any activity change. Limits are
+20 MiB compressed (or the smaller site/course upload limit), 100 MiB expanded and 2000
+archive entries. Bundled library files are removed before validation/storage: these tools
+cannot install or patch H5P libraries, even for an administrator. All declared dependencies
+must already be installed and enabled in the specified major/minor versions. Library
+installation remains a separate admin operation.
+
+Creation defaults to no grade (`grade=0`) and no attempt tracking. Set `enabletracking`,
+`grade` (0..1000 points) and `grademethod` explicitly for assessment. Methods are 0 manual,
+1 highest, 2 average, 3 last and 4 first attempt. Set completion separately with `set_completion`.
+Before replacing content, back up the authenticated package returned by `get_h5p`.
+Previous attempts are kept as history of the old content, not reinterpreted as new attempts.
+
+The bundled Danish [H5P skill](skills/moodle-h5p-design/SKILL.md) includes package tools,
+design guidance and the [MCP workflow](skills/moodle-h5p-design/references/mcp.md).
+Copy the `skills/moodle-h5p-design` directory into your client's skill directory to use it.
+It is client guidance, not a Moodle plugin. Upgrade `local_aimcp` in Moodle (including
+the database upgrade) and refresh the MCP connection to expose the new tools. Packaging
+and Moodle validation do not replace browser, mobile or student-result testing.
+
+For Moodle PHPUnit: `vendor/bin/phpunit --testsuite local_aimcp_testsuite`.
+The package-only tests can also run without Moodle using
+`phpunit --bootstrap tests/package_bootstrap.php tests/h5p_package_test.php`.
 
 ## Grid tile images
 
@@ -46,8 +89,8 @@ logged-in browser can call them with `core/ajax` (no token needed).
 
 | Service | Short name | Contents |
 |---|---|---|
-| AI-assistenter – interne (MCP) | `aimcp_internal` | All 22 tools plus core read, create and edit functions, deleting categories and courses, enrolment and file upload (`core_files_upload`, `core_files_get_files`) (51 functions) |
-| AI-assistenter – eksterne (MCP) | `aimcp_external` | The 22 tools plus core read, create and edit functions. It cannot delete categories or courses, enrol users or use `core_courseformat_update_course` (40 functions) |
+| AI-assistenter – interne (MCP) | `aimcp_internal` | All 26 tools plus core read, create and edit functions, deleting categories and courses, enrolment and file upload (`core_files_upload`, `core_files_get_files`) (55 functions) |
+| AI-assistenter – eksterne (MCP) | `aimcp_external` | The 26 tools plus core read, create and edit functions. It cannot delete categories or courses, enrol users or use `core_courseformat_update_course` (44 functions) |
 
 Both services are limited to authorised users. Service names are unique. If you already made a
 service by hand with either name, delete it before installing.

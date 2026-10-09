@@ -25,11 +25,12 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_aimcp';
-$plugin->version   = 2026100902;
-$plugin->release   = '1.2.2';
+$plugin->version   = 2026100903;
+$plugin->release   = '1.3.0';
 $plugin->requires  = 2026042000; // Moodle 5.2.
 $plugin->maturity  = MATURITY_BETA;
 $plugin->dependencies = [
+    'mod_h5pactivity' => ANY_VERSION,
     'mod_book' => ANY_VERSION,
     'mod_quiz' => ANY_VERSION,
     'mod_subsection' => ANY_VERSION,
