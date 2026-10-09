@@ -1,0 +1,4 @@
+interface:
+  display_name: "H5P til Moodle"
+  short_description: "Opret og design H5P-aktiviteter til Moodle"
+  default_prompt: "Brug $moodle-h5p-design til at skabe en H5P-aktivitet ud fra mit faglige materiale og tilpasse den til mit Moodle-kursus."

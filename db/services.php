@@ -25,6 +25,34 @@
 defined('MOODLE_INTERNAL') || die();
 
 $functions = [
+    'local_aimcp_get_h5p_libraries' => [
+        'classname' => 'local_aimcp\external\get_h5p_libraries',
+        'description' => 'List installed H5P libraries and optionally their semantics JSON for authoring. Never installs libraries.',
+        'type' => 'read',
+        'capabilities' => 'moodle/course:manageactivities',
+        'ajax' => true,
+    ],
+    'local_aimcp_get_h5p' => [
+        'classname' => 'local_aimcp\external\get_h5p',
+        'description' => 'Read a native H5P activity by cmid: course, section number, settings, source JSON and authenticated package URL for backup. Does not read student attempts.',
+        'type' => 'read',
+        'capabilities' => 'moodle/course:manageactivities',
+        'ajax' => true,
+    ],
+    'local_aimcp_create_h5p' => [
+        'classname' => 'local_aimcp\external\create_h5p',
+        'description' => 'Create a native H5P activity from a base64 .h5p (packagedata) OR current-user draftitemid. Validates before creation; uses installed libraries only. Section is a number, not an id. Defaults to no grade or attempt tracking.',
+        'type' => 'write',
+        'capabilities' => 'moodle/course:manageactivities,mod/h5pactivity:addinstance,moodle/h5p:deploy',
+        'ajax' => true,
+    ],
+    'local_aimcp_update_h5p' => [
+        'classname' => 'local_aimcp\external\update_h5p',
+        'description' => 'Replace a native H5P activity package by cmid from packagedata OR draftitemid. Validates first. Preserves activity id, attempts, visibility, grading and completion settings. Back up using get_h5p before replacing content.',
+        'type' => 'write',
+        'capabilities' => 'moodle/course:manageactivities,moodle/h5p:deploy',
+        'ajax' => true,
+    ],
     'local_aimcp_add_gift_questions' => [
         'classname' => 'local_aimcp\external\add_gift_questions',
         'description' => 'Import questions in Moodle GIFT format into an existing quiz and add them to it.',
@@ -168,6 +196,10 @@ $services = [
     'AI-assistenter – interne (MCP)' => [
         'shortname' => 'aimcp_internal',
         'functions' => [
+            'local_aimcp_get_h5p_libraries',
+            'local_aimcp_get_h5p',
+            'local_aimcp_create_h5p',
+            'local_aimcp_update_h5p',
             'local_aimcp_add_gift_questions',
             'local_aimcp_create_assign',
             'local_aimcp_create_forum',
@@ -228,6 +260,10 @@ $services = [
     'AI-assistenter – eksterne (MCP)' => [
         'shortname' => 'aimcp_external',
         'functions' => [
+            'local_aimcp_get_h5p_libraries',
+            'local_aimcp_get_h5p',
+            'local_aimcp_create_h5p',
+            'local_aimcp_update_h5p',
             'local_aimcp_add_gift_questions',
             'local_aimcp_create_assign',
             'local_aimcp_create_forum',
