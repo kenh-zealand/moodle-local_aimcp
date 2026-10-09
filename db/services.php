@@ -139,6 +139,24 @@ $functions = [
         'type' => 'read',
         'capabilities' => '',
     ],
+    'local_aimcp_set_section_image' => [
+        'classname' => 'local_aimcp\external\set_section_image',
+        'description' => 'Upload or replace the tile image of a section in a Grid-format course, and/or set its alt text. Give exactly one source: svg (SVG markup, recommended for AI; rendered to a 1140 px wide PNG on the server, use viewBox="0 0 1140 600" and no text in the image), imagedata (base64 PNG/JPEG/GIF/WebP) or imageurl (public http/https image). Send only alttext to change the alt text of an existing image.',
+        'type' => 'write',
+        'capabilities' => 'moodle/course:update',
+    ],
+    'local_aimcp_delete_section_image' => [
+        'classname' => 'local_aimcp\external\delete_section_image',
+        'description' => 'Delete the tile image of a section in a Grid-format course (and by default its alt text).',
+        'type' => 'write',
+        'capabilities' => 'moodle/course:update',
+    ],
+    'local_aimcp_get_section_images' => [
+        'classname' => 'local_aimcp\external\get_section_images',
+        'description' => 'List the sections of a Grid-format course with tile image status: whether each has an image, file name, alt text and image URL. Use it before and after setting images.',
+        'type' => 'read',
+        'capabilities' => 'moodle/course:manageactivities',
+    ],
 ];
 
 // Service names must be unique across the site. Delete any manually created service with the same name
@@ -164,6 +182,9 @@ $services = [
             'local_aimcp_delete_book_chapter',
             'local_aimcp_get_book_chapters',
             'local_aimcp_update_book_chapter',
+            'local_aimcp_set_section_image',
+            'local_aimcp_delete_section_image',
+            'local_aimcp_get_section_images',
             'core_webservice_get_site_info',
             'core_course_get_categories',
             'core_course_get_courses',
@@ -219,6 +240,9 @@ $services = [
             'local_aimcp_delete_book_chapter',
             'local_aimcp_get_book_chapters',
             'local_aimcp_update_book_chapter',
+            'local_aimcp_set_section_image',
+            'local_aimcp_delete_section_image',
+            'local_aimcp_get_section_images',
             'core_webservice_get_site_info',
             'core_course_get_categories',
             'core_course_get_courses',
