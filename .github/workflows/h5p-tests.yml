@@ -43,6 +43,8 @@ jobs:
         env:
           DB: pgsql
           MOODLE_BRANCH: MOODLE_502_STABLE
+      - name: Standalone blueprint validation tests
+        run: php plugin/tests/blueprint_standalone.php
       - name: PHP syntax
         run: moodle-plugin-ci phplint
       - name: Package and native Moodle integration tests

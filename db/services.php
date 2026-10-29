@@ -25,6 +25,18 @@
 defined('MOODLE_INTERNAL') || die();
 
 $functions = [
+    'local_aimcp_validate_course_blueprint' => [
+        'classname' => 'local_aimcp\\external\\validate_course_blueprint',
+        'description' => 'Validate a JSON course blueprint, including permissions, without changing Moodle.',
+        'type' => 'read',
+        'capabilities' => 'moodle/course:create',
+    ],
+    'local_aimcp_create_complete_course' => [
+        'classname' => 'local_aimcp\\external\\create_complete_course',
+        'description' => 'Build a complete hidden course from a validated JSON blueprint; publish only when complete.',
+        'type' => 'write',
+        'capabilities' => 'moodle/course:create',
+    ],
     'local_aimcp_get_h5p_libraries' => [
         'classname' => 'local_aimcp\external\get_h5p_libraries',
         'description' => 'List installed H5P libraries and optionally their semantics JSON for authoring. Never installs libraries.',
@@ -196,6 +208,8 @@ $services = [
     'AI-assistenter – interne (MCP)' => [
         'shortname' => 'aimcp_internal',
         'functions' => [
+            'local_aimcp_validate_course_blueprint',
+            'local_aimcp_create_complete_course',
             'local_aimcp_get_h5p_libraries',
             'local_aimcp_get_h5p',
             'local_aimcp_create_h5p',
@@ -260,6 +274,8 @@ $services = [
     'AI-assistenter – eksterne (MCP)' => [
         'shortname' => 'aimcp_external',
         'functions' => [
+            'local_aimcp_validate_course_blueprint',
+            'local_aimcp_create_complete_course',
             'local_aimcp_get_h5p_libraries',
             'local_aimcp_get_h5p',
             'local_aimcp_create_h5p',

@@ -105,3 +105,12 @@ Because these services are defined by the plugin, you change their function list
 3. Add the user as an authorised user on the right service.
 4. Create one token per AI service, e.g. "ChatGPT – Kenneth" and "Claude – Kenneth".
 5. Endpoint: `https://<site>/webservice/mcp/server.php?wstoken=<token>`.
+
+## Version 1.4.0: bulk course blueprints
+
+Two new web service functions create a complete course from one JSON blueprint:
+
+- `local_aimcp_validate_course_blueprint(blueprintjson)` validates without writing.
+- `local_aimcp_create_complete_course(blueprintjson, expectedhash?, includeids?)` builds a hidden draft and publishes only when all operations succeed.
+
+Read [the blueprint specification](docs/course-blueprint-1.4.0.md) for the schema, limits, error behavior, H5P draft handling and tests. Existing individual tools remain unchanged. This synchronous first version rejects a duplicate shortname but does not resume a partial operation automatically.
