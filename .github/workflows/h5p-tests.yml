@@ -49,3 +49,20 @@ jobs:
         run: moodle-plugin-ci phplint
       - name: Package and native Moodle integration tests
         run: moodle-plugin-ci phpunit --fail-on-warning
+
+  package:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build ZIP with Moodle's required aimcp root folder
+        run: |
+          mkdir -p build/aimcp
+          rsync -a --exclude='.git' --exclude='.github' --exclude='build' ./ build/aimcp/
+          (cd build && zip -q -r ../local_aimcp-1.4.0.zip aimcp)
+          unzip -Z1 local_aimcp-1.4.0.zip | grep -Fx 'aimcp/version.php'
+          grep -F "'1.4.0'" build/aimcp/version.php
+      - uses: actions/upload-artifact@v4
+        with:
+          name: local_aimcp-1.4.0-installable
+          path: local_aimcp-1.4.0.zip
+          if-no-files-found: error
