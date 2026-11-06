@@ -200,6 +200,13 @@ $functions = [
         'capabilities' => 'moodle/course:manageactivities',
         'ajax' => true,
     ],
+    'local_aimcp_set_course_image' => [
+        'classname' => 'local_aimcp\external\set_course_image',
+        'description' => 'Upload, replace or remove the course image shown on course cards (Dashboard, My courses). Works for every course format. Give exactly one source: imageurl (public http/https PNG/JPEG/GIF/WebP, e.g. a Canva export URL), imagedata (base64) or svg (rendered to PNG on the server). Or set remove=true. Max 5 MB.',
+        'type' => 'write',
+        'capabilities' => 'moodle/course:update',
+        'ajax' => true,
+    ],
 ];
 
 // Service names must be unique across the site. Delete any manually created service with the same name
@@ -234,6 +241,7 @@ $services = [
             'local_aimcp_set_section_image',
             'local_aimcp_delete_section_image',
             'local_aimcp_get_section_images',
+            'local_aimcp_set_course_image',
             'core_webservice_get_site_info',
             'core_course_get_categories',
             'core_course_get_courses',
@@ -300,6 +308,7 @@ $services = [
             'local_aimcp_set_section_image',
             'local_aimcp_delete_section_image',
             'local_aimcp_get_section_images',
+            'local_aimcp_set_course_image',
             'core_webservice_get_site_info',
             'core_course_get_categories',
             'core_course_get_courses',

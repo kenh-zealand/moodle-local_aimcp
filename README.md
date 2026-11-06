@@ -1,7 +1,7 @@
 # local_aimcp – AI MCP content tools
 
 Service-neutral replacement for `local_claudemcp` + `local_claudemcpbook`. The plugin
-exposes 26 web service functions (`local_aimcp_*`) for building course content. They are
+exposes 29 web service functions (`local_aimcp_*`) for building course content. They are
 meant to be used through the MCP web service protocol (`webservice_mcp`) from ChatGPT, Claude or
 other MCP clients.
 
@@ -16,11 +16,30 @@ Activities: `create_page`, `create_label`, `create_url`, `create_forum`, `create
 Book: `create_book`, `add_book_chapter`, `update_book_chapter`, `delete_book_chapter`,
 `get_book_chapters`.
 
-Courses: `create_course`, `get_default_category`.
+Courses: `create_course`, `get_default_category`, `validate_course_blueprint`, `create_complete_course`.
 
 Grid tile images: `set_section_image`, `delete_section_image`, `get_section_images`.
 
+Course image: `set_course_image`.
+
 H5P: `get_h5p_libraries`, `get_h5p`, `create_h5p`, `update_h5p`.
+
+## Course image
+
+Version 1.5.0 adds `local_aimcp_set_course_image` to both services. It sets the course image
+(the *Course image* field, shown on course cards in Dashboard and My courses) for any course format.
+
+Give exactly one source: `imageurl` (public http/https PNG, JPEG, GIF or WebP, e.g. a Canva
+export URL), `imagedata` (base64, a data: URI is allowed) or `svg` (rendered to PNG with Imagick).
+Send `remove=true` without a source to remove the image. Limit 5 MB. The existing image is
+replaced, the file name gets a short content hash, and the course image cache is purged.
+
+The tool requires `moodle/course:update` and follows the site settings *Course image files limit*
+(must be at least 1) and *Course image file extensions*. URL downloads use Moodle's curl security
+settings, so blocked hosts and ports stay blocked.
+
+Images from Canva: a generated image is a Canva media item without a public download URL. Put it
+in a Canva design, export the design as PNG and pass the export URL as `imageurl`.
 
 ## Native H5P activities
 
