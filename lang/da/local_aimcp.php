@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['courseimagesdisabled'] = 'Kursusbilleder er slået fra på sitet (indstillingen "Antal kursusbilleder" er 0).';
+$string['courseimagesource'] = 'Angiv præcis én billedkilde: imageurl, imagedata eller svg. Vil du fjerne kursusbilledet, så send remove=true uden billedkilde.';
 $string['externalcategory'] = 'Overkategori for eksterne brugere';
 $string['externalcategory_desc'] = 'Brugere, der ikke er godkendt på den interne service, får nye kurser i deres egen underkategori af denne kategori. Underkategorien findes ud fra kategori-id eller navn = brugernavn og derefter kategori-id eller navn = delen af brugerens e-mail før @. Findes ingen, bruges denne kategori.';
 $string['giftimportfailed'] = 'GIFT-import fejlede: {$a}';

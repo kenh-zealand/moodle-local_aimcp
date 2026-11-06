@@ -25,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_aimcp';
-$plugin->version   = 2026102900;
-$plugin->release   = '1.4.0';
+$plugin->version   = 2026110600;
+$plugin->release   = '1.5.0';
 $plugin->requires  = 2026042000; // Moodle 5.2.
 $plugin->maturity  = MATURITY_BETA;
 $plugin->dependencies = [

@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['courseimagesdisabled'] = 'Course images are turned off on this site (the setting "Course image files limit" is 0).';
+$string['courseimagesource'] = 'Give exactly one image source: imageurl, imagedata or svg. To remove the course image, send remove=true without an image source.';
 $string['externalcategory'] = 'Parent category for external users';
 $string['externalcategory_desc'] = 'Users who are not authorised on the internal service get new courses in their own subcategory of this category. The subcategory is matched on category ID number or name = username, then ID number or name = the part of the user\'s e-mail before @. If none matches, this category itself is used.';
 $string['giftimportfailed'] = 'GIFT import failed: {$a}';
